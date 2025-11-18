@@ -8,7 +8,7 @@ describe('Bank Accounts API Tests', () => {
     describe('GET /allAccounts', () => {
         it('should return all accounts with status 200', async () => {
             const response = await request(app)
-                .get('/allAccounts')
+                .get('/api/v1/accounts/allAccounts')
                 .expect(200);
 
             expect(response.body).toHaveProperty('accounts');
@@ -20,7 +20,7 @@ describe('Bank Accounts API Tests', () => {
     describe('GET /getAccount/:id', () => {
         it('should return a specific account when id exists', async () => {
             const response = await request(app)
-                .get('/getAccount/1')
+                .get('/api/v1/accounts/getAccount/1')
                 .expect(200);
 
             expect(response.body).toHaveProperty('account');
@@ -32,7 +32,7 @@ describe('Bank Accounts API Tests', () => {
 
         it('should return 404 when account id does not exist', async () => {
             const response = await request(app)
-                .get('/getAccount/999')
+                .get('/api/v1/accounts/getAccount/999')
                 .expect(404);
 
             expect(response.body).toHaveProperty('message');
@@ -44,7 +44,7 @@ describe('Bank Accounts API Tests', () => {
     describe('GET /getAccountByUsername/:username', () => {
         it('should return a specific account when username exists', async () => {
             const response = await request(app)
-                .get('/getAccountByUsername/Omar')
+                .get('/api/v1/accounts/getAccountByUsername/Omar')
                 .expect(200);
 
             expect(response.body).toHaveProperty('account');
@@ -56,7 +56,7 @@ describe('Bank Accounts API Tests', () => {
 
         it('should return 404 when username does not exist', async () => {
             const response = await request(app)
-                .get('/getAccountByUsername/NonExistentUser')
+                .get('/api/v1/accounts/getAccountByUsername/NonExistentUser')
                 .expect(404);
 
             expect(response.body).toHaveProperty('message');
@@ -73,7 +73,7 @@ describe('Bank Accounts API Tests', () => {
             };
 
             const response = await request(app)
-                .post('/createAccount')
+                .post('/api/v1/accounts/createAccount')
                 .send(newAccount)
                 .expect(201);
 
@@ -87,7 +87,7 @@ describe('Bank Accounts API Tests', () => {
 
         it('should return 400 when username is missing', async () => {
             const response = await request(app)
-                .post('/createAccount')
+                .post('/api/v1/accounts/createAccount')
                 .send({ funds: 50 })
                 .expect(400);
 
@@ -97,7 +97,7 @@ describe('Bank Accounts API Tests', () => {
 
         it('should return 400 when funds is missing', async () => {
             const response = await request(app)
-                .post('/createAccount')
+                .post('/api/v1/accounts/createAccount')
                 .send({ username: 'TestUser' })
                 .expect(400);
 
@@ -107,7 +107,7 @@ describe('Bank Accounts API Tests', () => {
 
         it('should return 400 when both username and funds are missing', async () => {
             const response = await request(app)
-                .post('/createAccount')
+                .post('/api/v1/accounts/createAccount')
                 .send({})
                 .expect(400);
 
@@ -125,7 +125,7 @@ describe('Bank Accounts API Tests', () => {
             };
 
             const response = await request(app)
-                .put('/updateAccount/1')
+                .put('/api/v1/accounts/updateAccount/1')
                 .send(updatedData)
                 .expect(200);
 
@@ -144,7 +144,7 @@ describe('Bank Accounts API Tests', () => {
             };
 
             const response = await request(app)
-                .put('/updateAccount/999')
+                .put('/api/v1/accounts/updateAccount/999')
                 .send(updatedData)
                 .expect(404);
 
@@ -154,7 +154,7 @@ describe('Bank Accounts API Tests', () => {
 
         it('should return 400 when username is missing', async () => {
             const response = await request(app)
-                .put('/updateAccount/1')
+                .put('/api/v1/accounts/updateAccount/1')
                 .send({ funds: 200 })
                 .expect(400);
 
@@ -164,7 +164,7 @@ describe('Bank Accounts API Tests', () => {
 
         it('should return 400 when funds is missing', async () => {
             const response = await request(app)
-                .put('/updateAccount/1')
+                .put('/api/v1/accounts/updateAccount/1')
                 .send({ username: 'UpdatedUser' })
                 .expect(400);
 
@@ -183,7 +183,7 @@ describe('Bank Accounts API Tests', () => {
             };
 
             const createResponse = await request(app)
-                .post('/createAccount')
+                .post('/api/v1/accounts/createAccount')
                 .send(newAccount)
                 .expect(201);
 
@@ -191,7 +191,7 @@ describe('Bank Accounts API Tests', () => {
 
             // Now delete it
             const deleteResponse = await request(app)
-                .delete(`/deleteAccount/${accountId}`)
+                .delete(`/api/v1/accounts/deleteAccount/${accountId}`)
                 .expect(200);
 
             expect(deleteResponse.body).toHaveProperty('message');
@@ -201,13 +201,13 @@ describe('Bank Accounts API Tests', () => {
 
             // Verify it's deleted by trying to get it
             await request(app)
-                .get(`/getAccount/${accountId}`)
+                .get(`/api/v1/accounts/getAccount/${accountId}`)
                 .expect(404);
         });
 
         it('should return 404 when account id does not exist', async () => {
             const response = await request(app)
-                .delete('/deleteAccount/999')
+                .delete('/api/v1/accounts/deleteAccount/999')
                 .expect(404);
 
             expect(response.body).toHaveProperty('message');

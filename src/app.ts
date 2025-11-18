@@ -1,21 +1,29 @@
 import express from "express";
-import { accounts } from "../data/accounts";
-import router from "./api/acc.routes";
+import accRouter from "./api/accounts/acc.routes";
+import connectDB from "./database";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+export const DB_URI = process.env.DB_URI as string;
+
+if (!DB_URI) {
+    throw new Error("MongoDB URI is not set");
+}
 
 const app = express();
-const PORT = 5000;
-const HOST = '127.0.0.1';
 
-// Middleware to parse JSON bodies
+const PORT = parseInt(process.env.PORT as string) || 5000;
+const HOST = process.env.HOST as string || '127.0.0.1';
+
 app.use(express.json());
 
-app.use('/', router);
+app.use('/api/v1/accounts', accRouter);
 
-
+connectDB();
 
 app.listen(PORT, HOST, () => {
     console.log(`Server is running on http://${HOST}:${PORT}`);
 });
 
 export default app;
-
