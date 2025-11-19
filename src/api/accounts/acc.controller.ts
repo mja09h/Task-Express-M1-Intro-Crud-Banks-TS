@@ -69,7 +69,7 @@ const deleteAccount = async (req: Request, res: Response) => {
         }
 
         res.status(200).json({ success: true, data: account });
-
+ 
     } catch (error) {
         res.status(500).json({ message: 'Error deleting account', error: error, success: false });
     }
