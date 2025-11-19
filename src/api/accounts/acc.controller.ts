@@ -1,4 +1,3 @@
-import { accounts } from "../../../data/accounts";
 import { Request, Response } from "express";
 import Account from "../../models/accounts";
 
@@ -31,6 +30,7 @@ const getAccountByUsername = async (req: Request, res: Response) => {
     try {
         const { username } = req.params;
         const account = await Account.findOne({ username });
+
         if (!account) {
             return res.status(404).json({ message: 'Account not found' });
         }
@@ -50,6 +50,7 @@ const createAccount = async (req: Request, res: Response) => {
         }
 
         const newAccount = await Account.create({ username, funds });
+
         res.status(201).json({ success: true, data: newAccount });
 
     } catch (error) {
