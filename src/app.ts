@@ -2,6 +2,7 @@ import express from "express";
 import accRouter from "./api/accounts/acc.routes";
 import connectDB from "./database";
 import dotenv from "dotenv";
+import notesRouter from "./api/notes/notes.routes";
 
 dotenv.config();
 
@@ -18,7 +19,8 @@ const HOST = process.env.HOST as string || '127.0.0.1';
 
 app.use(express.json());
 
-app.use('/api/v1/accounts', accRouter);
+app.use('/api/accounts', accRouter);
+app.use('/api/notes', notesRouter);
 
 connectDB();
 
